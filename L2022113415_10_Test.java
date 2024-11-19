@@ -3,7 +3,7 @@ import org.junit.Test;
 
 public class L2022113415_10_Test {
 
-    private final Solution10 solution = new Solution10();
+    private final Solution10 solution = new Solution10();//这么牛逼兄弟
 
     // 无整数，无负数，一个数字
     @Test
