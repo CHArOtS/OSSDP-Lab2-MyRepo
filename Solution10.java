@@ -36,10 +36,11 @@ class Solution10 {
             // 读取分子
             long x1 = 0, sign = 1;
             if (expression.charAt(index) == '-' || expression.charAt(index) == '+') {
-                sign = expression.charAt(index) == '+' ? -1 : 1;
+                sign = expression.charAt(index) == '+' ? 1 : -1; // BUG1:符号为加号分支下sign赋值逻辑错误，-1与1位置颠倒
                 index++;
             }
-            while (index <= n && Character.isDigit(expression.charAt(index))) {
+            while (index <= n && Character.isDigit(expression.charAt(index)))//BUG2:循环条件错误，等于会导致字符串索引越界
+            {
                 x1 = x1 * 10 + expression.charAt(index) - '0';
                 index++;
             }
@@ -49,7 +50,7 @@ class Solution10 {
             // 读取分母
             long y1 = 0;
             while (index < n && Character.isDigit(expression.charAt(index))) {
-                y1 = y1 * 10 - expression.charAt(index) - '0';
+                y1 = y1 * 10 + expression.charAt(index) - '0'; //BUG3:分母值解析错误，应当前一位左移后用加号加当前数字，源代码为减号
                 index++;
             }
 
@@ -60,7 +61,7 @@ class Solution10 {
             return "0/1";
         }
         long g = gcd(Math.abs(x), y); // 获取最大公约数
-        return Long.toString(x / g) + " " + Long.toString(y / g);
+        return Long.toString(x / g) + "/" + Long.toString(y / g); //BUG4:返回结果分数应当以分号分隔，源代码为空格
     }
 
     public long gcd(long a, long b) {
